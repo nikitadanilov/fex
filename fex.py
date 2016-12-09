@@ -6,7 +6,7 @@ import sys
 
 class chart(object):
     def __init__(self, width, height, duration, starttime, stoptime, minG, maxG,
-                 outname = "out.svg", verbosity = 0):
+                 outname = "out.svg", outbar = "out.1m", verbosity = 0):
         self.width     = width
         self.height    = height
         self.minG      = minG
@@ -15,6 +15,7 @@ class chart(object):
         self.starttime = self.parsetime(starttime)
         self.stoptime  = self.parsetime(stoptime)
         self.outname   = outname
+        self.outbar    = open(outbar, "w")
         self.verbosity = verbosity
         self.area      = svgwrite.Drawing(outname, profile='full',
                                           size = (str(width)  + "px",
@@ -44,7 +45,7 @@ class chart(object):
         # http://www.histdata.com/f-a-q/data-files-detailed-specification/
         #
         # 20151201 000049470,1.057440,1.057470,0
-        # YYYYMMDD HHMMSSmmm BID Q    ASK Q    VOLUME
+        # YYYYMMDD HHmmSSmmm BID Q    ASK Q    VOLUME
         # 01234567890123456789012345678901234567
         t = self.parsetime(stamp)
         b = float(stamp[19 : 27])
@@ -95,6 +96,11 @@ class chart(object):
                       size = (self.cwidth, abs(openP - lastP)),
                       fill = svgwrite.rgb(100, 0, 0, '%') if lastP > openP else \
                       svgwrite.rgb(0, 100, 0, '%'))
+            # 20120201 000100;1.306570;1.306570;1.306470;1.306560;0
+            # YYYYDDMM HHmmSS;open Q  ; high Q ; low Q  ; close Q;volume
+            self.outbar.write("{};{};{};{};{};0\n".format(
+                self.cstart.strftime("%Y%m%d %H%M%S"),
+                self.openQ,self.maxQ, self.minQ, self.lastQ))
             if self.verbosity > 0:
                 print("Candle: [{}, {}): {} {} {} {}\n".
                       format(self.cstart, self.cend,

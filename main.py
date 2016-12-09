@@ -21,10 +21,11 @@ def processinput(argv):
         "-d" : ("duration",  int, "Candlestick duration."),
         "-S" : ("starttime", str, "Start time."),
         "-s" : ("stoptime",  str, "Stop time."),
-        "-o" : ("outname",   str, "Output file name.")
+        "-o" : ("outname",   str, "Output SVG file name."),
+        "-O" : ("outbar",    str, "Output bar file name.")
     }
     try:
-        opts, args = getopt.getopt(argv[1:], "h:w:s:S:d:o:v:m:M:")
+        opts, args = getopt.getopt(argv[1:], "h:w:s:S:d:o:O:v:m:M:")
     except getopt.GetoptError:
         print("{} [options]\n\nOptions:\n".format(argv[0]))
         for k in xlate:
