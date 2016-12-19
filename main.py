@@ -22,10 +22,12 @@ def processinput(argv):
         "-S" : ("starttime", str, "Start time."),
         "-s" : ("stoptime",  str, "Stop time."),
         "-o" : ("outname",   str, "Output SVG file name."),
-        "-O" : ("outbar",    str, "Output bar file name.")
+        "-a" : ("axes",      int, "Draw axes."),
+        "-O" : ("outbar",    str, "Output bar file name."),
+        "-4" : ("outmt",     str, "Output MT4 file name.")
     }
     try:
-        opts, args = getopt.getopt(argv[1:], "h:w:s:S:d:o:O:v:m:M:")
+        opts, args = getopt.getopt(argv[1:], "h:w:s:S:d:o:O:v:m:M:a:4:")
     except getopt.GetoptError:
         print("{} [options]\n\nOptions:\n".format(argv[0]))
         for k in xlate:
